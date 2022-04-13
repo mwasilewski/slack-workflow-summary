@@ -46,7 +46,7 @@ describe('ActionsClient', () => {
   let client: ActionsClient;
   beforeEach(() => {
     (github.getOctokit as jest.Mock).mockReturnValue(mockOctokit);
-    client = new ActionsClient('token', 'owner', 'repo');
+    client = new ActionsClient('token', 'owner', 'repo', []);
   });
 
   describe('getCompletedJobs', () => {

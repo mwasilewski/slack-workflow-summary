@@ -11,7 +11,8 @@ async function run(): Promise<void> {
   try {
     const githubToken = core.getInput('github-token');
     const webhookUrl = core.getInput('slack-webhook-url');
-    // const excludedJobs = core.getInput('excluded-jobs');
+    const excludedJobs = core.getInput('excluded-jobs');
+    const newExcludedJobs = JSON.parse(excludedJobs) as string[];
     const emojis: SummaryEmojis = {
       success: core.getInput('success-emoji'),
       skipped: core.getInput('skipped-emoji'),
@@ -22,7 +23,7 @@ async function run(): Promise<void> {
     const { owner, repo } = github.context.repo;
     const { runId, workflow, actor } = github.context;
 
-    const actionsClient = new ActionsClient(githubToken, owner, repo);
+    const actionsClient = new ActionsClient(githubToken, owner, repo, newExcludedJobs);
     const workflowSummariser = new WorkflowSummariser(actionsClient);
     const client = new SlackClient(webhookUrl);
 

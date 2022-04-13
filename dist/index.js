@@ -12679,8 +12679,7 @@ const parseExcludeJobsArray = () => {
     }
     return JSON.parse(excludedJobs);
 };
-setTimeout(() => run(), 10000);
-// run();
+run();
 
 
 /***/ }),

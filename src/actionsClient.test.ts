@@ -88,5 +88,11 @@ describe('ActionsClient', () => {
       });
       expect(jobs).toEqual(expectedJobs);
     });
+
+    it('should filter jobs from excludeJobs Array', async () => {
+      client = new ActionsClient('token', 'owner', 'repo', ['Job 2']);
+      const jobs = await client.getCompletedJobs(1234);
+      expect(jobs).not.toContainEqual(expectedJobs[1]);
+    });
   });
 });

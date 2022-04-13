@@ -12579,16 +12579,13 @@ class ActionsClient {
                 repo: this.repo,
                 run_id: runId,
             });
-            return (response.data.jobs
+            return response.data.jobs
                 .filter(({ status }) => status === 'completed')
-                // .filter(({ name }) => {
-                //   !this.excludedJobs.includes(name);
-                // })
                 .filter(({ name }) => !this.excludedJobs.includes(name))
                 .map((jobData) => ({
                 name: jobData.name,
                 result: jobData.conclusion,
-            })));
+            }));
         });
     }
 }
@@ -12682,6 +12679,9 @@ const parseExcludeJobsArray = () => {
     }
     return JSON.parse(excludedJobs);
 };
+setTimeout(() => {
+    console.log('hi');
+}, 5000);
 run();
 
 

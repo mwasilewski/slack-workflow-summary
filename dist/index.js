@@ -12566,7 +12566,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const github = __importStar(__nccwpck_require__(5438));
 class ActionsClient {
-    constructor(token, owner, repo, excludedJobs) {
+    constructor(token, owner, repo, excludedJobs = []) {
         this.octokit = github.getOctokit(token);
         this.owner = owner;
         this.repo = repo;

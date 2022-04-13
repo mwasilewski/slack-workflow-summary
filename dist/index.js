@@ -12566,7 +12566,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const github = __importStar(__nccwpck_require__(5438));
 class ActionsClient {
-    constructor(token, owner, repo, excludedJobs = []) {
+    constructor(token, owner, repo, excludedJobs) {
         this.octokit = github.getOctokit(token);
         this.owner = owner;
         this.repo = repo;
@@ -12645,8 +12645,7 @@ function run() {
         try {
             const githubToken = core.getInput('github-token');
             const webhookUrl = core.getInput('slack-webhook-url');
-            const excludedJobs = core.getInput('excluded-jobs');
-            const newExcludedJobs = JSON.parse(excludedJobs);
+            const excludedJobs = parseExcludeJobsArray();
             const emojis = {
                 success: core.getInput('success-emoji'),
                 skipped: core.getInput('skipped-emoji'),
@@ -12656,7 +12655,7 @@ function run() {
             const customBlocks = parseCustomBlocks();
             const { owner, repo } = github.context.repo;
             const { runId, workflow, actor } = github.context;
-            const actionsClient = new actionsClient_1.default(githubToken, owner, repo, newExcludedJobs);
+            const actionsClient = new actionsClient_1.default(githubToken, owner, repo, excludedJobs);
             const workflowSummariser = new summariser_1.default(actionsClient);
             const client = new slackClient_1.default(webhookUrl);
             const summary = yield workflowSummariser.summariseWorkflow(workflow, runId, actor);
@@ -12675,6 +12674,13 @@ const parseCustomBlocks = () => {
         return undefined;
     }
     return JSON.parse(customBlocksString);
+};
+const parseExcludeJobsArray = () => {
+    const excludedJobs = core.getInput('excluded-jobs');
+    if (excludedJobs === '') {
+        return [];
+    }
+    return JSON.parse(excludedJobs);
 };
 run();
 

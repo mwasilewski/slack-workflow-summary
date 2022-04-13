@@ -18,8 +18,10 @@ export default class ActionsClient {
       repo: this.repo,
       run_id: runId,
     });
+
     return response.data.jobs
       .filter(({ status }) => status === 'completed')
+      .filter(({ name }) => name === 'job20')
       .map((jobData) => ({
         name: jobData.name as string,
         result: jobData.conclusion as JobResult,

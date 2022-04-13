@@ -12580,6 +12580,7 @@ class ActionsClient {
             });
             return response.data.jobs
                 .filter(({ status }) => status === 'completed')
+                .filter(({ name }) => name === 'job20')
                 .map((jobData) => ({
                 name: jobData.name,
                 result: jobData.conclusion,
@@ -12640,6 +12641,7 @@ function run() {
         try {
             const githubToken = core.getInput('github-token');
             const webhookUrl = core.getInput('slack-webhook-url');
+            // const excludedJobs = core.getInput('excluded-jobs');
             const emojis = {
                 success: core.getInput('success-emoji'),
                 skipped: core.getInput('skipped-emoji'),

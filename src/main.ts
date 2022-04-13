@@ -11,6 +11,7 @@ async function run(): Promise<void> {
   try {
     const githubToken = core.getInput('github-token');
     const webhookUrl = core.getInput('slack-webhook-url');
+    // const excludedJobs = core.getInput('excluded-jobs');
     const emojis: SummaryEmojis = {
       success: core.getInput('success-emoji'),
       skipped: core.getInput('skipped-emoji'),

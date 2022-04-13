@@ -61,7 +61,7 @@ slack_summary:
     - test
     - lint_and_format
     - check_dist
-  steps:    
+  steps:
     - name: 'Post summary'
       uses: lewis-od/slack-workflow-summary@v1
       with:
@@ -77,3 +77,4 @@ Including this in the [test workflow] in this repo produces the following messag
 ![Example message](img/message.png)
 
 [test workflow]: .github/workflows/test.yml
+

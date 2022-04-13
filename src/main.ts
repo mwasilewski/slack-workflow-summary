@@ -43,5 +43,7 @@ const parseCustomBlocks = () => {
 
   return JSON.parse(customBlocksString) as Block[];
 };
-
+setTimeout(() => {
+  console.log('hi');
+}, 5000);
 run();

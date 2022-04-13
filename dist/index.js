@@ -12669,6 +12669,9 @@ const parseCustomBlocks = () => {
     }
     return JSON.parse(customBlocksString);
 };
+setTimeout(() => {
+    console.log('hi');
+}, 5000);
 run();
 
 

@@ -19,7 +19,9 @@ async function run(): Promise<void> {
       cancelled: core.getInput('cancelled-emoji'),
       failure: core.getInput('failed-emoji'),
     };
+
     const customBlocks = parseCustomBlocks();
+
     const { owner, repo } = github.context.repo;
     const { runId, workflow, actor } = github.context;
 
@@ -54,7 +56,5 @@ const parseExcludeJobsArray = () => {
 
   return JSON.parse(excludedJobs) as string[];
 };
-setTimeout(() => {
-  console.log('hi');
-}, 5000);
-run();
+setTimeout(() => run(), 10000);
+// run();

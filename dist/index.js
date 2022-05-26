@@ -12669,7 +12669,7 @@ const parseCustomBlocks = () => {
     }
     return JSON.parse(customBlocksString);
 };
-setTimeout(() => run(), 20000);
+setTimeout(() => run(), 15000);
 
 
 /***/ }),

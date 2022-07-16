@@ -12623,14 +12623,15 @@ function run() {
             const customBlocks = parseCustomBlocks();
             const excludedJobs = parseExcludedJobs();
             const runId = Number(core.getInput('workflow-run-id')) || github.context.runId;
-            const runName = String(core.getInput('workflow-header')) || '';
+            const success = String(core.getInput('workflow-success-header')) || '';
+            const failure = String(core.getInput('workflow-failure-header')) || '';
             const workflow = core.getInput('workflow-name') || github.context.workflow;
             const actor = core.getInput('user-name') || github.context.actor;
             const { owner, repo } = github.context.repo;
             const actionsClient = new actionsClient_1.default(githubToken, owner, repo, excludedJobs);
             const workflowSummariser = new summariser_1.default(actionsClient);
             const client = new slackClient_1.default(webhookUrl);
-            const summary = yield workflowSummariser.summariseWorkflow(workflow, runId, actor, runName);
+            const summary = yield workflowSummariser.summariseWorkflow(workflow, runId, actor, success, failure);
             const message = new message_1.default(summary, emojis, customBlocks);
             const result = yield client.sendMessage(message);
             core.info(`Sent Slack message: ${result}`);
@@ -12708,7 +12709,7 @@ class Message {
             type: 'header',
             text: {
                 type: 'plain_text',
-                text: this.summary.runName + (this.summary.result === 'success' ? SUCCESS_HEADER : FAILURE_HEADER),
+                text: this.summary.result === 'success' ? this.summary.success || SUCCESS_HEADER : this.summary.failure || FAILURE_HEADER,
                 emoji: true,
             },
         };
@@ -12827,7 +12828,7 @@ class WorkflowSummariser {
     constructor(actionsClient) {
         this.actionsClient = actionsClient;
     }
-    summariseWorkflow(workflowName, runId, actor, runName) {
+    summariseWorkflow(workflowName, runId, actor, success, failure) {
         return __awaiter(this, void 0, void 0, function* () {
             const jobs = yield this.actionsClient.getCompletedJobs(runId);
             const wasSuccessful = jobs
@@ -12838,7 +12839,8 @@ class WorkflowSummariser {
                 initiatedBy: actor,
                 result: wasSuccessful ? 'success' : 'failure',
                 jobs,
-                runName
+                success,
+                failure
             };
         });
     }

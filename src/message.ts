@@ -73,7 +73,7 @@ export default class Message {
       type: 'header',
       text: {
         type: 'plain_text',
-        text: this.summary.runName + (this.summary.result === 'success' ? SUCCESS_HEADER : FAILURE_HEADER),
+        text:  this.summary.result === 'success' ? this.summary.success || SUCCESS_HEADER : this.summary.failure || FAILURE_HEADER,
         emoji: true,
       },
     };

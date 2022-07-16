@@ -12,7 +12,8 @@ export default class WorkflowSummariser {
     workflowName: string,
     runId: number,
     actor: string,
-    runName: string,
+    success: string,
+    failure: string
   ): Promise<WorkflowSummary> {
     const jobs = await this.actionsClient.getCompletedJobs(runId);
 
@@ -25,7 +26,8 @@ export default class WorkflowSummariser {
       initiatedBy: actor,
       result: wasSuccessful ? 'success' : 'failure',
       jobs,
-      runName
+      success,
+      failure
     };
   }
 }

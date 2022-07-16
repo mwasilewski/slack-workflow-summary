@@ -37,8 +37,11 @@ inputs:
   excluded-jobs:
     description: 'Jobs to be excluded from message. Should be an array of strings'
     required: false
-  workflow-header:
-    description: 'Name of the workflow'
+  workflow-success-header:
+    description: 'Success header for workflow'
+    required: false
+  workflow-failure-header:
+    description: 'Success failure for workflow'
     required: false
 
 runs:

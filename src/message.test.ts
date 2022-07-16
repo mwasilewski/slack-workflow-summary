@@ -31,6 +31,7 @@ const workflowSummary: WorkflowSummary = {
       result: 'failure',
     },
   ],
+  runName: ''
 };
 
 const now = new Date(2021, 9, 16, 1, 2, 3);

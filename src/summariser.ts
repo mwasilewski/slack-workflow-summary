@@ -21,10 +21,11 @@ export default class WorkflowSummariser {
       .reduce((workflowResult, jobResult) => workflowResult && jobResult, true);
 
     return {
-      name: runName + workflowName,
+      name: workflowName,
       initiatedBy: actor,
       result: wasSuccessful ? 'success' : 'failure',
       jobs,
+      runName
     };
   }
 }

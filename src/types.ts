@@ -7,6 +7,7 @@ export interface WorkflowSummary {
   initiatedBy: string;
   result: 'success' | 'failure';
   jobs: Job[];
+  runName: string;
 }
 
 export interface Job {

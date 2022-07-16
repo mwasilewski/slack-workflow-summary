@@ -12708,7 +12708,7 @@ class Message {
             type: 'header',
             text: {
                 type: 'plain_text',
-                text: this.summary.result === 'success' ? SUCCESS_HEADER : FAILURE_HEADER,
+                text: this.summary.runName + (this.summary.result === 'success' ? SUCCESS_HEADER : FAILURE_HEADER),
                 emoji: true,
             },
         };
@@ -12834,10 +12834,11 @@ class WorkflowSummariser {
                 .map(({ result }) => result !== 'failure')
                 .reduce((workflowResult, jobResult) => workflowResult && jobResult, true);
             return {
-                name: runName + workflowName,
+                name: workflowName,
                 initiatedBy: actor,
                 result: wasSuccessful ? 'success' : 'failure',
                 jobs,
+                runName
             };
         });
     }

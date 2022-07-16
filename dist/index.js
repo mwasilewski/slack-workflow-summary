@@ -12623,7 +12623,7 @@ function run() {
             const customBlocks = parseCustomBlocks();
             const excludedJobs = parseExcludedJobs();
             const runId = Number(core.getInput('workflow-run-id')) || github.context.runId;
-            const runName = String(core.getInput('workflow-name')) || '';
+            const runName = String(core.getInput('workflow-header')) || '';
             const workflow = core.getInput('workflow-name') || github.context.workflow;
             const actor = core.getInput('user-name') || github.context.actor;
             const { owner, repo } = github.context.repo;

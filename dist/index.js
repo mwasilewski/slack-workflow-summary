@@ -12623,13 +12623,14 @@ function run() {
             const customBlocks = parseCustomBlocks();
             const excludedJobs = parseExcludedJobs();
             const runId = Number(core.getInput('workflow-run-id')) || github.context.runId;
+            const runName = String(core.getInput('workflow-name')) || '';
             const workflow = core.getInput('workflow-name') || github.context.workflow;
             const actor = core.getInput('user-name') || github.context.actor;
             const { owner, repo } = github.context.repo;
             const actionsClient = new actionsClient_1.default(githubToken, owner, repo, excludedJobs);
             const workflowSummariser = new summariser_1.default(actionsClient);
             const client = new slackClient_1.default(webhookUrl);
-            const summary = yield workflowSummariser.summariseWorkflow(workflow, runId, actor);
+            const summary = yield workflowSummariser.summariseWorkflow(workflow, runId, actor, runName);
             const message = new message_1.default(summary, emojis, customBlocks);
             const result = yield client.sendMessage(message);
             core.info(`Sent Slack message: ${result}`);
@@ -12826,14 +12827,14 @@ class WorkflowSummariser {
     constructor(actionsClient) {
         this.actionsClient = actionsClient;
     }
-    summariseWorkflow(workflowName, runId, actor) {
+    summariseWorkflow(workflowName, runId, actor, runName) {
         return __awaiter(this, void 0, void 0, function* () {
             const jobs = yield this.actionsClient.getCompletedJobs(runId);
             const wasSuccessful = jobs
                 .map(({ result }) => result !== 'failure')
                 .reduce((workflowResult, jobResult) => workflowResult && jobResult, true);
             return {
-                name: workflowName,
+                name: runName + workflowName,
                 initiatedBy: actor,
                 result: wasSuccessful ? 'success' : 'failure',
                 jobs,

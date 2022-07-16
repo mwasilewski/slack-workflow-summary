@@ -20,6 +20,7 @@ async function run(): Promise<void> {
     const customBlocks = parseCustomBlocks();
     const excludedJobs = parseExcludedJobs();
     const runId = Number(core.getInput('workflow-run-id')) || github.context.runId;
+    const runName = String(core.getInput('workflow-name')) || '';
     const workflow = core.getInput('workflow-name') || github.context.workflow;
     const actor = core.getInput('user-name') || github.context.actor;
     const { owner, repo } = github.context.repo;
@@ -28,7 +29,7 @@ async function run(): Promise<void> {
     const workflowSummariser = new WorkflowSummariser(actionsClient);
     const client = new SlackClient(webhookUrl);
 
-    const summary = await workflowSummariser.summariseWorkflow(workflow, runId, actor);
+    const summary = await workflowSummariser.summariseWorkflow(workflow, runId, actor, runName);
     const message = new Message(summary, emojis, customBlocks);
 
     const result = await client.sendMessage(message);
